@@ -1,6 +1,8 @@
-export const kiln = (pot, temperature) => {
+import { getPots } from "./pottery.js"
+
+export const kiln = (pot) => {
     
-    if (temperature > 2200) {
+    if (pot.temp > 2200) {
         pot.cracked = true
     }
     else {
@@ -8,4 +10,13 @@ export const kiln = (pot, temperature) => {
     }
     
     pot.fired = true
+
+    return fetch(`http://localhost:3000/pottery/${pot.id}`,{
+        method:"PUT",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(pot)
+    })
+    .then(getPots)
 }
